@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useDebounce from "./hooks/debounce";
 
 const fetchUsers = async (query, signal) => {
@@ -30,7 +30,6 @@ const App = () => {
 
   useEffect(() => {
     if (!debouncedSearch) {
-      setUsers([]);
       return;
     }
 
@@ -62,7 +61,11 @@ const App = () => {
     <>
       <input
         type="text"
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => {
+          const value = e.target.value;
+          setSearch(value);
+          if (!value) setUsers([]);
+        }}
         value={search}
         placeholder="SearchUsers...."
       />
